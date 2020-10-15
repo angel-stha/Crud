@@ -6,9 +6,9 @@ const cors=require('cors')
 
 
 var mysqlConnection = mysql.createConnection({
-	host: 'database-1.czsqu5b24nmo.us-east-1.rds.amazonaws.com',
+	host: 'localhost',
 	user: 'admin',
-    password: 'virat1819',
+    password: 'password',
 	database: 'database-1',
 	
 });
