@@ -12,7 +12,7 @@ function App() {
 
 
   useEffect(()=> {
-    Axios.get('http:\\localhost:30001/api/get').then((response) => {
+    Axios.get('http://localhost:3001/api/get').then((response) => {
       setMovieList(response.data);
     });
   }, []);
@@ -28,8 +28,13 @@ function App() {
     };
 
   
+ 
   const deleteReview =(movie) => {
-    Axios.post('http://localhost:3001/api/delete/${movie}');
+      console.log(movie)
+
+    Axios.post('http://localhost:3001/api/delete/',{
+        movieName:movie,
+    });
 
   }
 
