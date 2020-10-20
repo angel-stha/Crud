@@ -12,7 +12,7 @@ function App() {
 
 
   useEffect(()=> {
-    Axios.get('http:\\localhost:30001/api/get').then((response) => {
+    Axios.get('http://localhost:3001/api/get').then((response) => {
       setMovieList(response.data);
     });
   }, []);
@@ -26,13 +26,16 @@ function App() {
       setMovieList([...movieReviewList, 
         {movieName:movieName,movieReview:movieReview},]);
     };
+ const deleteReview =(movie) => {
+      console.log(movie)
 
-  
-  const deleteReview =(movie) => {
-    Axios.post('http://localhost:3001/api/delete/${movie}');
+    Axios.post('http://localhost:3001/api/delete/',{
+        movieName:movie,
+    });
 
   }
-
+  
+  
   const updateReview =(movie) => {
     Axios.put('http://localhost:3001/api/update',{
       movieName:movie,
