@@ -22,8 +22,10 @@ app.use(bodyParser.urlencoded({extended:true}))
 app.get('/api/get',(req,res)=>{
 	const sqlSelect=
 	"SELECT *FROM  movie_reviews";
-	mysqlConnection.query(sqlSelect, [movieName,movieReview],(err,result)=>{
-		res.send(result);
+	mysqlConnection.query(sqlSelect, function(err,result){
+		if (result.length>0) {
+			res.send(result)
+		}
 	})
 })
 
@@ -35,28 +37,32 @@ app.post('/api/insert', (req,res)=>{
 
 
 	const sqlInsert =
-	"INSERT INTO movie_reviews ( movieName. movieReview) VALUES (?,?)"
-	mysqlConnection.query(sqlInsert,[movieName,movieReview],(err,result)=>{
+	"INSERT INTO movie_reviews ( `movieName`, `movieReview`) VALUES ('"+movieName+"','"+movieReview+"')"
+	mysqlConnection.query(sqlInsert,(err,result)=>{
 		console.log(result);
 
 	})
 })
 
-app.delete('/api/delete/:movieName',(req,res) =>{
-	const name=req.params.movieName
+app.post('/api/delete/',(req,res) =>{
+	const name= req.body.movieName
 	const sqlDelete=
-	"DELETE FROM movie_reviews WHERE movieName= ?";
-	 mysqlConnection.query(sqlDelete,name,(err,result)=>{
+		"DELETE FROM `data`.`movie_reviews` WHERE (`movieName` = '"+name+"');"
+	 mysqlConnection.query(sqlDelete,(err,result)=>{
 		 if (err) console.log(err)
+		 else{
+		 	console.log(name)
+		 }
 	 })
 })
 
 app.put("/api/update",(req,res)=>{
-	const name=req.params.movieName;
+	const name= req.body.movieName;
 	const review =req.body.movieReview;
-	const sqlUpdate ="UPDATE  movie_reviews  SET movieReview =? WHERE movieName =?";
+	console.log(review)
+	const sqlUpdate ="UPDATE  movie_reviews  SET movieReview ='"+review+"' WHERE movieName ='"+name+"'";
 
-	mysqlConnection.query(sqlUpdate,[review,name],(err,result) =>{
+	mysqlConnection.query(sqlUpdate,(err,result) =>{
 		if (err) console.log(err)
 	});
 
